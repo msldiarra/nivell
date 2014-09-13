@@ -24,25 +24,25 @@ public class AlertResourceTest {
         String time = "2013-10-10 10:10:10";
         BigDecimal level = new BigDecimal("5.00");
 
-        Alert expectedAlert = new Alert("tankIdentifier", level, time);
-        Tank expectedTank = new Tank("tankIdentifier", "Sokorodji1",
+        Alert expectedAlert = new Alert("tankReference", level, time);
+        Tank expectedTank = new Tank("tankReference", "Sokorodji1",
                 null, new BigDecimal("8.00"),new BigDecimal("-89.23"), new BigDecimal("-179.89"));
 
-        AlertRepository repository = mock(AlertRepository.class);
+        AlertRepository alertRepository = mock(AlertRepository.class);
         TankRepository tankRepository = mock(TankRepository.class);
 
-        when(tankRepository.get(expectedAlert.getTankIdentifier())).thenReturn(gson.toJson(expectedTank));
+        when(tankRepository.get("tankReference")).thenReturn(gson.toJson(expectedTank));
 
-        IAlertResource alertResource = new AlertResource(repository, tankRepository);
-        alertResource.add(expectedAlert.getTankIdentifier(), level, time);
+        IAlertResource alertResource = new AlertResource(alertRepository, tankRepository);
+        alertResource.add("tankReference", level, time);
 
-        assertThat(repository).addMethodIsCalledWith(expectedAlert);
+        assertThat(alertRepository).addMethodIsCalledWith(expectedAlert);
     }
 
     @Test(expected = WebApplicationException.class)
     public void posting_on_new_alert_uri_fails_when_date_wrong_format() throws WebApplicationException {
 
-        String time = "2013-10-10 10:10:10";;
+        String time = "2013-10-10 10:10:10";
         BigDecimal level = new BigDecimal("-5.00");
         Alert expectedAlert = new Alert(null, level, time);
 

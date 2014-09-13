@@ -26,14 +26,15 @@ public class AlertTest {
     @After
     public void clean(){}
 
+
     @Test
     public void level_is_invalid() {
 
-        Alert alert = new Alert("tankIdentifier", new BigDecimal("-2.7889"), "2013-10-10 10:10:10");
+        Alert alert = new Alert("tankReference", new BigDecimal("-2.7889"), "2013-10-10 10:10:10");
 
         Set<ConstraintViolation<Alert>> constraintViolations = validator.validate(alert);
 
-        assertThat(alert).hasTankIdentifier("tankIdentifier");
+        assertThat(alert).hasRefrenceToTank("tank::tankReference");
         assertThat(alert).hasLevel(new BigDecimal("-2.7889"));
         assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations).hasErrorMessage("Liquid level must be a positive value");
@@ -46,7 +47,7 @@ public class AlertTest {
 
         Set<ConstraintViolation<Alert>> constraintViolations = validator.validate(alert);
 
-        assertThat(alert).hasTankIdentifier(null);
+        assertThat(alert).hasRefrenceToTank(null);
         assertThat(constraintViolations).hasSize(3);
     }
 }

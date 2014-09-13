@@ -8,5 +8,5 @@ import java.util.Date;
 
 public interface IAlertResource {
 
-    public Response add(@PathParam("tankIdentifier") String tankIdentifier, @PathParam("level") BigDecimal level,@PathParam("time") String time);
+    public Response add(@PathParam("tankReference") String tankReference, @PathParam("level") BigDecimal level,@PathParam("time") String time);
 }

@@ -33,10 +33,10 @@ public class TankResourceTest {
 
         TankRepository tankRepository = mock(TankRepository.class);
 
-        when(tankRepository.get(expectedTank.getPersistenceKey())).thenReturn(gson.toJson(expectedTank));
+        when(tankRepository.get(expectedTank.getLookupKey())).thenReturn(gson.toJson(expectedTank));
 
         ITankResource tankResource = new TankResource(tankRepository);
-        tankResource.add(expectedTank.getPersistenceKey(), "Sokorodji1", size, level, latitude, longitude);
+        tankResource.add(expectedTank.getReference(), "Sokorodji1", size, level, latitude, longitude);
 
         assertThat(tankRepository).addMethodIsCalledWith(expectedTank);
     }

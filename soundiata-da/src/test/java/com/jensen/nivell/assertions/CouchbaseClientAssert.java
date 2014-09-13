@@ -10,15 +10,21 @@ public class CouchbaseClientAssert<T extends CouchbaseClientAssert> extends Abst
         super(actual, CouchbaseClientAssert.class);
     }
 
-    public T setMethodIsCalledWith(String tankIdentifier, int ttl, String alert) {
+    public T setMethodIsCalledWith(String tankReference, int ttl, String alert) {
         isNotNull();
-        Mockito.verify(actual).set(tankIdentifier, ttl, alert);
+        Mockito.verify(actual).set(tankReference, ttl, alert);
         return (T) this;
     }
 
     public T getMethodIsCalledWith(String identifier) {
         isNotNull();
         Mockito.verify(actual).get(identifier);
+        return (T) this;
+    }
+
+    public T getAlarmsMethodIsCalledWith(String user){
+        isNotNull();
+        Mockito.verify(actual).getView("tank", "alarms_by_user");
         return (T) this;
     }
 }

@@ -2,24 +2,22 @@ package com.jensen.nivell.models;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class Alert implements IDocumentPersisted {
 
     public static final String PLATFORM_DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
-    private String tankIdentifier;
+    private String uid;
+    private String tankReference;
     private BigDecimal level;
     private Date time;
 
-    public Alert(String tankIdentifier, BigDecimal level, String time) {
+    public Alert(String tankReference, BigDecimal level, String time) {
 
-        this.tankIdentifier = tankIdentifier;
+        this.tankReference = (tankReference!=null)? "tank::" + tankReference:null;
         this.level = level;
 
         DateFormat format = new SimpleDateFormat(PLATFORM_DATE_FORMAT);
@@ -34,8 +32,8 @@ public class Alert implements IDocumentPersisted {
     }
 
     @Override
-    public String getPersistenceKey(){
-        return tankIdentifier + "::" + time.getTime();
+    public String getLookupKey(){
+        return null;
     }
 
     @NotNull(message = "Time value is null or incorrect; correct format is yyyy-MM-dd hh:mm:ss")
@@ -57,13 +55,21 @@ public class Alert implements IDocumentPersisted {
         this.level = level;
     }
 
-    @NotNull(message = "Alert must specify tank identifier")
-    public String getTankIdentifier() {
-        return tankIdentifier;
+    @NotNull(message = "Alert must specify tank reference")
+    public String getTankReference() {
+        return tankReference;
     }
 
-    public void setTankIdentifier(String tankIdentifier) {
-        this.tankIdentifier = tankIdentifier;
+    public void setTankReference(String tankReference) {
+        this.tankReference = tankReference;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     @Override
@@ -74,16 +80,18 @@ public class Alert implements IDocumentPersisted {
         Alert alert = (Alert) o;
 
         if (level != null ? !level.equals(alert.level) : alert.level != null) return false;
-        if (tankIdentifier != null ? !tankIdentifier.equals(alert.tankIdentifier) : alert.tankIdentifier != null)
+        if (tankReference != null ? !tankReference.equals(alert.tankReference) : alert.tankReference != null)
             return false;
         if (time != null ? !time.equals(alert.time) : alert.time != null) return false;
+        if (uid != null ? !uid.equals(alert.uid) : alert.uid != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = tankIdentifier != null ? tankIdentifier.hashCode() : 0;
+        int result = uid != null ? uid.hashCode() : 0;
+        result = 31 * result + (tankReference != null ? tankReference.hashCode() : 0);
         result = 31 * result + (level != null ? level.hashCode() : 0);
         result = 31 * result + (time != null ? time.hashCode() : 0);
         return result;
@@ -92,7 +100,8 @@ public class Alert implements IDocumentPersisted {
     @Override
     public String toString() {
         return "Alert{" +
-                "tankIdentifier='" + tankIdentifier + '\'' +
+                "uid='" + uid + '\'' +
+                ", tankReference='" + tankReference + '\'' +
                 ", level=" + level +
                 ", time=" + time +
                 '}';

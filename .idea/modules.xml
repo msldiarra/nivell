@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../hodor/hodor.iml" filepath="$PROJECT_DIR$/../hodor/hodor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nivell.iml" filepath="$PROJECT_DIR$/nivell.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nivell-tester/nivell-tester.iml" filepath="$PROJECT_DIR$/nivell-tester/nivell-tester.iml" />
+      <module fileurl="file://$PROJECT_DIR$/soundiata-da/soundiata-da.iml" filepath="$PROJECT_DIR$/soundiata-da/soundiata-da.iml" />
+      <module fileurl="file://$PROJECT_DIR$/soundiata-rs/soundiata-rs.iml" filepath="$PROJECT_DIR$/soundiata-rs/soundiata-rs.iml" />
+    </modules>
+  </component>
+</project>
+

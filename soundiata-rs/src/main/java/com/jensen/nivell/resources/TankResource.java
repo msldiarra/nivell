@@ -1,6 +1,5 @@
 package com.jensen.nivell.resources;
 
-import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jensen.nivell.models.*;
@@ -51,7 +50,7 @@ public class TankResource implements ITankResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String get(@PathParam("identifier") String identifier){
 
-        logger.info("retreiving  alert");
+        logger.info("retreiving  tank with identifier : " + identifier);
         String tank = repository.get(identifier);
 
         if(tank == null) {
@@ -60,4 +59,17 @@ public class TankResource implements ITankResource {
 
         return tank;
     }
+
+    /*@Path("user/{user}/alarms")
+    @GET
+    @Consumes("text/plain")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getAlarms(@PathParam("user") String user){
+
+        logger.info("retreiving alarms for user : " + user);
+
+        String tanks = repository.getAlarms(user);
+
+        return tanks;
+    }*/
 }

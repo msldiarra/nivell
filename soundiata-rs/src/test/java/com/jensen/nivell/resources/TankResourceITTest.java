@@ -54,6 +54,7 @@ public class TankResourceITTest extends ResourceITTemplate {
     public void calling_add_with_valid_parameters_returns_response_status_200() {
 
         when(connectionManager.getClientInstance()).thenReturn(client);
+        when(client.incr("tank::count", 1)).thenReturn(12349875L);
 
         ClientResponse response = webResource.path("tank/add/12349875/Sokorodji1/5000/8.00/-89.23/-179.89")
                 .accept(MediaType.TEXT_PLAIN)
@@ -133,7 +134,8 @@ public class TankResourceITTest extends ResourceITTemplate {
     public void calling_get_with_valid_parameters_returns_alert() throws IOException {
 
         when(connectionManager.getClientInstance()).thenReturn(client);
-        when(client.get("12349875")).thenReturn(expectedTank);
+        when(client.get("tank::12349875")).thenReturn("tankUid");
+        when(client.get("tankUid")).thenReturn(expectedTank);
 
         String tank = webResource.path("tank/get/12349875").accept("text/plain").get(String.class);
 
@@ -144,7 +146,7 @@ public class TankResourceITTest extends ResourceITTemplate {
     public void calling_get_with_valid_parameters_returns_no_resource() throws IOException {
 
         when(connectionManager.getClientInstance()).thenReturn(client);
-        when(client.get("12349875")).thenReturn(null);
+        when(client.get("tank::12349875")).thenReturn(null);
 
         ClientResponse response = webResource.path("tank/get/12349875").accept("text/plain").get(ClientResponse.class);
 

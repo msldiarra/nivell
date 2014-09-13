@@ -30,14 +30,14 @@ public class AlertResource implements IAlertResource {
         this.tankRepository = tankRepository;
     }
 
-    @Path("add/{tankIdentifier}/{level: [0-9]{1,}\\.{1}[0-9]{1,6}|[0-9]{1,8}}/{time: .+}")
+    @Path("add/{tankReference}/{level: [0-9]{1,}\\.{1}[0-9]{1,6}|[0-9]{1,8}}/{time: .+}")
     @POST
     @Consumes("text/plain")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response add(@PathParam("tankIdentifier") String tankIdentifier, @PathParam("level") BigDecimal level, @PathParam("time") String time){
+    public Response add(@PathParam("tankReference") String tankReference, @PathParam("level") BigDecimal level, @PathParam("time") String time){
 
         logger.info("Saving alert to Couchbase");
-        Alert alert = new Alert(tankIdentifier, level, time);
+        Alert alert = new Alert(tankReference, level, time);
 
         try{
 
@@ -46,27 +46,30 @@ public class AlertResource implements IAlertResource {
             logger.info("Now saving alert level to Tank");
 
             Gson gson = new Gson();
-            Tank tank = gson.getAdapter(Tank.class).fromJson(tankRepository.get(alert.getTankIdentifier()));
-            tank.setCurrentLevel(alert.getLevel());
+            //String tankUid = tankRepository.get(tankReference);
+            Tank tank = gson.fromJson( tankRepository.get(tankReference), Tank.class);
+            tank.setCurrentLevel(level);
             tankRepository.add(tank);
 
         }catch (ValidationException e) {
+            logger.error(e.getMessage(),e);
             throw new WebApplicationException(Response.status(400).entity(e.getMessage()).build());
         } catch (Exception e) {
+            logger.error(e.getMessage(),e);
             throw new WebApplicationException(Response.serverError().build());
         }
 
         return Response.ok(alert.toString()).build();
     }
 
-    @Path("get/{tankIdentifier}")
+    @Path("alerts/{tankReference}")
     @GET
     @Consumes("text/plain")
     @Produces(MediaType.TEXT_PLAIN)
-    public String get(@PathParam("tankIdentifier") String tankIdentifier){
+    public String get(@PathParam("tankReference") String tankReference){
 
-        logger.info("retreiving  alert");
-        return repository.get(tankIdentifier);
+        logger.info("retreiving  alerts foe tank");
+        return repository.get(tankReference);
     }
 
 

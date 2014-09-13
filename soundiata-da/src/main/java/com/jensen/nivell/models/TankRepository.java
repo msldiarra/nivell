@@ -34,16 +34,21 @@ public class TankRepository implements IRepository<Tank> {
             logger.error("Tank isn't valid : " + constraintViolations.iterator().next().getMessage());
             throw new ValidationException("Tank isn't valid. " + constraintViolations.iterator().next().getMessage());
         }
-
-        client.set(tank.getIdentifier(), 0, gson.toJson(tank));
+        Long uid = client.incr("tank::count", 1);
+        client.set(Long.toString(uid), 0, gson.toJson(tank));
     }
 
     @Override
-    public String get(String identifier) {
-        Object tank = client.get(identifier);
-        if(tank==null){
+    public String get(String reference) {
+
+        String uid = (String) client.get("tank::" + reference);
+        if(uid==null){
             return null;
         }
-        return gson.toJson(tank);
+        return gson.toJson(client.get(uid));
+    }
+
+    public String getAlarms(int rate) {
+        return null;
     }
 }

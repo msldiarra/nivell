@@ -38,7 +38,7 @@ public class TankTest {
 
         Set<ConstraintViolation<Tank>> constraintViolations = validator.validate(tank);
 
-        com.jensen.nivell.assertions.RepositoryAssertions.assertThat(tank).hasTankIdentifier("identifier");
+        com.jensen.nivell.assertions.RepositoryAssertions.assertThat(tank).hastankReference("identifier");
         com.jensen.nivell.assertions.RepositoryAssertions.assertThat(tank).hasName("name");
         com.jensen.nivell.assertions.RepositoryAssertions.assertThat(tank).hasSize(size);
         com.jensen.nivell.assertions.RepositoryAssertions.assertThat(tank).hasLevel(currentLevel);

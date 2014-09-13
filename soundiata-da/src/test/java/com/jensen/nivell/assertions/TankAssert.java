@@ -13,9 +13,9 @@ public class TankAssert<T extends TankAssert<T>> extends AbstractAssert<TankAsse
         super(actual, TankAssert.class);
     }
 
-    public T hasTankIdentifier(String identifier) {
+    public T hastankReference(String identifier) {
         isNotNull();
-        assertThat(actual.getIdentifier()).isEqualTo(identifier);
+        assertThat(actual.getReference()).isEqualTo(identifier);
         return (T) this;
     }
 
